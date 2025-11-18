@@ -5,8 +5,7 @@
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Competition Background](#competition-background)
+
 - [Solution Architecture](#solution-architecture)
 - [Features](#features)
 - [Models](#models)
@@ -20,21 +19,11 @@
 - [Citation](#citation)
 - [License](#license)
 
-## 🎯 Overview
 
-This repository contains a **modernized and significantly enhanced** version of the winning solution for the American Express Default Prediction competition. The solution predicts the probability that a customer will default on their credit card balance based on 18 months of behavioral and profile data.
-
-### Key Achievements
-
-- 🥇 **1st Place** in the original Kaggle competition (2022)
-- 📈 **Enhanced** with modern SOTA models (2024-2025)
-- 🔬 **Production-ready** code with best practices
-- 🚀 **Modular architecture** for easy experimentation
-- 📊 **Comprehensive tracking** with MLflow and W&B
-
-## 🏦 Competition Background
 
 ### Problem Statement
+
+https://www.kaggle.com/competitions/amex-default-prediction/overview
 
 Credit default prediction is central to managing risk in consumer lending. This competition challenged participants to predict credit card default using:
 
@@ -488,41 +477,41 @@ Top 10 most important features (averaged across models):
 
 ### Architecture Enhancements
 
-1. ✅ **Modern GBDT Models**: Added XGBoost 2.0 and CatBoost 1.2
-2. ✅ **Transformer Models**: TabNet, TabTransformer, FT-Transformer
-3. ✅ **Hybrid Architectures**: Combined time-series and tabular processing
-4. ✅ **Attention Mechanisms**: Self-attention for feature interactions
+1.  **Modern GBDT Models**: Added XGBoost 2.0 and CatBoost 1.2
+2.  **Transformer Models**: TabNet, TabTransformer, FT-Transformer
+3.  **Hybrid Architectures**: Combined time-series and tabular processing
+4.  **Attention Mechanisms**: Self-attention for feature interactions
 
 ### Engineering Best Practices
 
-1. ✅ **Modular Design**: Clean separation of concerns
-2. ✅ **Configuration Management**: YAML-based configs with Hydra
-3. ✅ **Experiment Tracking**: MLflow and Weights & Biases integration
-4. ✅ **Type Hints**: Full type annotations for better code quality
-5. ✅ **Logging**: Structured logging with levels
-6. ✅ **Error Handling**: Comprehensive exception handling
-7. ✅ **Unit Tests**: Test coverage for critical components
+1.  **Modular Design**: Clean separation of concerns
+2.  **Configuration Management**: YAML-based configs with Hydra
+3.  **Experiment Tracking**: MLflow and Weights & Biases integration
+4.  **Type Hints**: Full type annotations for better code quality
+5.  **Logging**: Structured logging with levels
+6.  **Error Handling**: Comprehensive exception handling
+7.  **Unit Tests**: Test coverage for critical components
 
 ### Feature Engineering
 
-1. ✅ **Advanced Statistics**: Skewness, kurtosis, quantiles
-2. ✅ **Target Encoding**: Smoothed target encoding for categoricals
-3. ✅ **Interaction Features**: Automated feature interactions
-4. ✅ **Time-Series Features**: tsfresh-based features
+1.  **Advanced Statistics**: Skewness, kurtosis, quantiles
+2.  **Target Encoding**: Smoothed target encoding for categoricals
+3.  **Interaction Features**: Automated feature interactions
+4.  **Time-Series Features**: tsfresh-based features
 
 ### Training Improvements
 
-1. ✅ **Mixed Precision**: FP16 training for speed
-2. ✅ **Gradient Accumulation**: Train with larger effective batch sizes
-3. ✅ **Advanced Schedulers**: Cosine annealing, warm restarts
-4. ✅ **Hyperparameter Optimization**: Optuna integration
+1.  **Mixed Precision**: FP16 training for speed
+2.  **Gradient Accumulation**: Train with larger effective batch sizes
+3.  **Advanced Schedulers**: Cosine annealing, warm restarts
+4.  **Hyperparameter Optimization**: Optuna integration
 
 ### Reproducibility
 
-1. ✅ **Seed Management**: Comprehensive random seed control
-2. ✅ **Deterministic Operations**: Reproducible results
-3. ✅ **Version Control**: Track data, code, and model versions
-4. ✅ **Environment Management**: Pinned dependencies
+1.  **Seed Management**: Comprehensive random seed control
+2.  **Deterministic Operations**: Reproducible results
+3.  **Version Control**: Track data, code, and model versions
+4.  **Environment Management**: Pinned dependencies
 
 ## 🔬 Hyperparameter Optimization
 
@@ -617,22 +606,7 @@ Contributions are welcome! Please follow these steps:
 - [Weights & Biases](https://docs.wandb.ai/)
 - [MLflow](https://mlflow.org/docs/latest/index.html)
 
-## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Original competition winners and solution authors
-- Kaggle community for valuable discussions
-- Open-source contributors of libraries used in this project
-
-## 📧 Contact
-
-For questions or collaboration:
-- **GitHub Issues**: [Create an issue](https://github.com/premalshah999/amex-default-prediction/issues)
-- **Email**: your.email@example.com
-- **LinkedIn**: [Your Profile](https://linkedin.com/in/yourprofile)
 
 ---
 
