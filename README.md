@@ -441,7 +441,7 @@ wandb login
 | AmEx Score | 0.80831 | 0.80850 |
 | Rank | **1st** | **1st** |
 
-### Modernized Version Performance
+### SOTA
 
 | Model | CV Score | Public LB* | Private LB* | Training Time |
 |-------|----------|------------|-------------|---------------|
