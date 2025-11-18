@@ -1,10 +1,7 @@
 # 🏆 American Express Default Prediction - 1st Place Solution (Modernized 2025)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-> **Modernized and enhanced version of the 1st place solution for the Kaggle American Express Default Prediction competition, incorporating state-of-the-art models and best practices from 2024-2025.**
 
 ## 📋 Table of Contents
 
