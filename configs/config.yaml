@@ -1,0 +1,317 @@
+# Main Configuration for AmEx Default Prediction
+# Author: Competition Winner (Modernized 2025)
+
+# General Settings
+general:
+  project_name: "amex-default-prediction"
+  experiment_name: "modern-sota-ensemble"
+  seed: 42
+  n_folds: 5
+  debug: false
+  verbose: true
+
+# Data Paths
+paths:
+  data_dir: "./input"
+  output_dir: "./output"
+  model_dir: "./models"
+  log_dir: "./logs"
+  train_data: "./input/train_data.csv"
+  train_labels: "./input/train_labels.csv"
+  test_data: "./input/test_data.csv"
+  submission: "./output/submission.csv"
+
+# Data Configuration
+data:
+  target_col: "target"
+  id_col: "customer_ID"
+  date_col: "S_2"
+
+  # Categorical features
+  cat_features:
+    - "B_30"
+    - "B_38"
+    - "D_114"
+    - "D_116"
+    - "D_117"
+    - "D_120"
+    - "D_126"
+    - "D_63"
+    - "D_64"
+    - "D_66"
+    - "D_68"
+
+  # Feature prefixes
+  feature_types:
+    delinquency: "D_"
+    spend: "S_"
+    payment: "P_"
+    balance: "B_"
+    risk: "R_"
+
+  # Class weights (negative class downsampled at 5%)
+  class_weights:
+    negative: 20
+    positive: 1
+
+# Feature Engineering
+feature_engineering:
+  # Aggregation statistics
+  agg_stats:
+    numerical: ["mean", "std", "min", "max", "sum", "last", "first"]
+    categorical: ["mean", "std", "sum", "last", "nunique", "count"]
+
+  # Advanced aggregations
+  advanced_stats:
+    - "skew"
+    - "kurtosis"
+    - "median"
+    - "quantile_25"
+    - "quantile_75"
+
+  # Temporal features
+  temporal:
+    use_diff_features: true
+    use_rank_features: true
+    use_lag_features: true
+    lag_periods: [1, 2, 3, 6]
+    lastk_variants: [3, 6, 9, 13]
+
+  # Target encoding
+  target_encoding:
+    enabled: true
+    smoothing: 10
+    min_samples_leaf: 10
+
+  # Interaction features
+  interactions:
+    enabled: true
+    max_interactions: 50
+
+  # Time series features
+  ts_features:
+    enabled: true
+    max_features: 100
+
+# Preprocessing
+preprocessing:
+  denoise:
+    quantize: true
+    quantize_factor: 100
+
+  normalization:
+    method: "standard"  # standard, minmax, robust
+
+  missing_values:
+    strategy: "median"  # median, mean, forward_fill
+
+  binning:
+    max_bins: 255
+    min_samples_bin: 3
+
+# Model Configurations
+models:
+  # LightGBM
+  lightgbm:
+    enabled: true
+    n_estimators: 10000
+    early_stopping_rounds: 100
+    params:
+      objective: "binary"
+      metric: "binary_logloss"
+      boosting_type: "dart"
+      num_leaves: 64
+      max_depth: -1
+      learning_rate: 0.01
+      feature_fraction: 0.7
+      bagging_fraction: 0.75
+      bagging_freq: 5
+      min_child_samples: 256
+      max_bin: 255
+      reg_alpha: 0.1
+      reg_lambda: 30
+      verbose: -1
+
+  # XGBoost
+  xgboost:
+    enabled: true
+    n_estimators: 5000
+    early_stopping_rounds: 100
+    params:
+      objective: "binary:logistic"
+      eval_metric: "logloss"
+      tree_method: "hist"
+      max_depth: 7
+      learning_rate: 0.01
+      subsample: 0.75
+      colsample_bytree: 0.7
+      min_child_weight: 256
+      reg_alpha: 0.1
+      reg_lambda: 30
+      gamma: 1.0
+
+  # CatBoost
+  catboost:
+    enabled: true
+    iterations: 10000
+    early_stopping_rounds: 100
+    params:
+      loss_function: "Logloss"
+      eval_metric: "AUC"
+      depth: 7
+      learning_rate: 0.01
+      l2_leaf_reg: 30
+      bootstrap_type: "Bernoulli"
+      subsample: 0.75
+      random_strength: 1.0
+      bagging_temperature: 0.2
+      verbose: 100
+
+  # Neural Networks - GRU + MLP
+  nn_hybrid:
+    enabled: true
+    architecture: "gru_mlp"
+    params:
+      hidden_dim: 256
+      num_layers: 3
+      dropout: 0.3
+      bidirectional: true
+      batch_size: 512
+      epochs: 50
+      learning_rate: 0.001
+      weight_decay: 0.0001
+      scheduler: "cosine_annealing"
+
+  # TabNet
+  tabnet:
+    enabled: true
+    params:
+      n_d: 64
+      n_a: 64
+      n_steps: 5
+      gamma: 1.5
+      n_independent: 2
+      n_shared: 2
+      lambda_sparse: 0.0001
+      momentum: 0.3
+      mask_type: "entmax"
+      batch_size: 2048
+      virtual_batch_size: 256
+      max_epochs: 100
+      patience: 20
+      lr: 0.02
+
+  # TabTransformer
+  tab_transformer:
+    enabled: true
+    params:
+      dim: 32
+      depth: 6
+      heads: 8
+      attn_dropout: 0.1
+      ff_dropout: 0.1
+      mlp_hidden_mults: [4, 2]
+      batch_size: 256
+      epochs: 50
+      learning_rate: 0.0001
+
+  # FT-Transformer
+  ft_transformer:
+    enabled: true
+    params:
+      d_token: 192
+      n_blocks: 3
+      attention_n_heads: 8
+      attention_dropout: 0.2
+      ffn_d_hidden: 256
+      ffn_dropout: 0.1
+      residual_dropout: 0.0
+      batch_size: 256
+      epochs: 50
+      learning_rate: 0.0001
+
+# Training Configuration
+training:
+  cv_strategy: "stratified"  # stratified, group, time_series
+  use_gpu: true
+  gpu_ids: [0]
+  mixed_precision: true
+  gradient_accumulation_steps: 1
+  num_workers: 8
+
+  # Callbacks
+  callbacks:
+    early_stopping:
+      enabled: true
+      patience: 100
+      mode: "max"
+      monitor: "val_amex_metric"
+
+    model_checkpoint:
+      enabled: true
+      save_top_k: 3
+      mode: "max"
+      monitor: "val_amex_metric"
+
+    lr_monitor:
+      enabled: true
+
+# Ensemble Configuration
+ensemble:
+  method: "weighted_average"  # weighted_average, stacking, blending
+
+  # Model weights (auto-tuned if null)
+  weights:
+    lightgbm: 0.25
+    xgboost: 0.20
+    catboost: 0.20
+    nn_hybrid: 0.10
+    tabnet: 0.10
+    tab_transformer: 0.08
+    ft_transformer: 0.07
+
+  # Stacking configuration
+  stacking:
+    meta_model: "lightgbm"
+    use_features: true
+    cv_folds: 5
+
+# Hyperparameter Optimization
+optuna:
+  enabled: false
+  n_trials: 100
+  timeout: 3600
+  study_name: "amex_optimization"
+  direction: "maximize"
+  sampler: "tpe"
+  pruner: "median"
+
+# Experiment Tracking
+tracking:
+  use_wandb: true
+  use_mlflow: true
+
+  wandb:
+    project: "amex-default-prediction"
+    entity: null
+    tags: ["tabular", "credit-risk", "ensemble"]
+
+  mlflow:
+    experiment_name: "amex_modern_ensemble"
+    tracking_uri: "./mlruns"
+
+# Evaluation Metrics
+metrics:
+  primary: "amex_metric"
+  additional:
+    - "gini"
+    - "auc"
+    - "top4_capture"
+    - "log_loss"
+    - "brier_score"
+
+# Inference
+inference:
+  batch_size: 10000
+  use_tta: false  # Test Time Augmentation
+  num_tta: 5
